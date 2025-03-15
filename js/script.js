@@ -1,23 +1,30 @@
-// Live Real-Time Clock
+// Live Clock Function
 function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    document.getElementById("real-time-clock").textContent = `${hours}:${minutes}:${seconds}`;
+    let now = new Date();
+    document.getElementById("real-time-clock").textContent = now.toLocaleTimeString();
 }
-
 setInterval(updateClock, 1000);
-updateClock();
+updateClock(); // Run immediately on load
 
 // Feedback System
-function submitFeedback() {
-    alert("Thank you for your feedback!");
-}
+document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let feedback = document.getElementById("feedback").value;
+
+    if (feedback.trim() !== "") {
+        let feedbackList = JSON.parse(localStorage.getItem("feedbacks")) || [];
+        feedbackList.push(feedback);
+        localStorage.setItem("feedbacks", JSON.stringify(feedbackList));
+        document.getElementById("feedback").value = "";
+        showFeedback();
+    }
+});
+
 function showFeedback() {
     let feedbackList = JSON.parse(localStorage.getItem("feedbacks")) || [];
     let feedbackContainer = document.getElementById("feedbackList");
     feedbackContainer.innerHTML = "";
+
     feedbackList.forEach(feedback => {
         let li = document.createElement("li");
         li.textContent = feedback;
