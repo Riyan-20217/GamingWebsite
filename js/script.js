@@ -14,3 +14,15 @@ updateClock();
 function submitFeedback() {
     alert("Thank you for your feedback!");
 }
+function showFeedback() {
+    let feedbackList = JSON.parse(localStorage.getItem("feedbacks")) || [];
+    let feedbackContainer = document.getElementById("feedbackList");
+    feedbackContainer.innerHTML = "";
+    feedbackList.forEach(feedback => {
+        let li = document.createElement("li");
+        li.textContent = feedback;
+        feedbackContainer.appendChild(li);
+    });
+}
+
+showFeedback();
