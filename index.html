@@ -8,11 +8,20 @@
     <script defer src="script.js"></script>
 </head>
 <body>
+    <!-- Name Prompt -->
+    <div id="namePrompt">
+        <h2>Enter Your Name:</h2>
+        <input type="text" id="playerNameInput" placeholder="Your Name">
+        <button onclick="saveName()">Start</button>
+    </div>
+
+    <!-- Header -->
     <header>
-        <h1>Welcome to Riyan's Game Zone</h1>
+        <h1>Welcome, <span id="playerName">Player</span> to Riyan's Game Zone</h1>
         <p id="clock">Loading time...</p>
     </header>
-    
+
+    <!-- Navigation Menu -->
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -22,10 +31,13 @@
         </ul>
     </nav>
 
+    <!-- Main Content -->
     <main>
-        <h2>Enjoy exciting games with an anime-themed experience!</h2>
+        <h2>Welcome to Riyan's Game Zone</h2>
+        <p>Enjoy exciting games with an anime-themed experience!</p>
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
     </footer>
