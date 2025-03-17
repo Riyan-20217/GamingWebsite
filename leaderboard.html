@@ -18,10 +18,10 @@
             </ul>
         </nav>
     </header>
-    
+
     <section>
         <h2>Top Players</h2>
-        <table border="1">
+        <table>
             <thead>
                 <tr>
                     <th>Rank</th>
@@ -34,19 +34,18 @@
             </tbody>
         </table>
     </section>
-    
+
     <footer>
         <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
     </footer>
-    
+
     <script>
-        let playerName = localStorage.getItem("playerName") || "Guest";
         let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-        
+
         function updateLeaderboard() {
             const table = document.getElementById("leaderboardTable");
-            table.innerHTML = ""; // Clear previous data
-            leaderboard.sort((a, b) => b.score - a.score); // Sort by highest score
+            table.innerHTML = "";
+            leaderboard.sort((a, b) => b.score - a.score);
             leaderboard.forEach((player, index) => {
                 let row = `<tr>
                     <td>${index + 1}</td>
@@ -56,13 +55,7 @@
                 table.innerHTML += row;
             });
         }
-        
-        function addScore(score) {
-            leaderboard.push({ name: playerName, score: score });
-            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-            updateLeaderboard();
-        }
-        
+
         updateLeaderboard();
     </script>
 </body>
