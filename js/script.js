@@ -1,35 +1,44 @@
-// Live Clock Function
-function updateClock() {
-    let now = new Date();
-    document.getElementById("real-time-clock").textContent = now.toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock(); // Run immediately on load
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riyan's Game Zone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Riyan's Game Zone</h1>
+        <div id="clock">00:00:00</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tic-tac-toe.html">Tic-Tac-Toe</a></li>
+                <li><a href="jet-fighter.html">Jet Fighter</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </nav>
+    </header>
 
-// Feedback System
-document.getElementById("feedbackForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    let feedback = document.getElementById("feedback").value;
+    <section class="welcome">
+        <h2>Welcome to Riyan's Game Zone</h2>
+        <p>Enjoy exciting games with an anime-themed experience!</p>
+    </section>
 
-    if (feedback.trim() !== "") {
-        let feedbackList = JSON.parse(localStorage.getItem("feedbacks")) || [];
-        feedbackList.push(feedback);
-        localStorage.setItem("feedbacks", JSON.stringify(feedbackList));
-        document.getElementById("feedback").value = "";
-        showFeedback();
-    }
-});
-
-function showFeedback() {
-    let feedbackList = JSON.parse(localStorage.getItem("feedbacks")) || [];
-    let feedbackContainer = document.getElementById("feedbackList");
-    feedbackContainer.innerHTML = "";
-
-    feedbackList.forEach(feedback => {
-        let li = document.createElement("li");
-        li.textContent = feedback;
-        feedbackContainer.appendChild(li);
-    });
-}
-
-showFeedback();
+    <footer>
+        <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
