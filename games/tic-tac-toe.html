@@ -4,76 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #1e1e2e;
-            color: white;
-        }
-        h1 {
-            color: #ff79c6;
-        }
         .board {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
             gap: 5px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 50px;
         }
         .cell {
-            width: 100px;
-            height: 100px;
-            background-color: #44475a;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2em;
             cursor: pointer;
-            color: #ffb86c;
-        }
-        .cell:hover {
-            background-color: #6272a4;
-        }
-        .winner {
-            color: #50fa7b;
-            font-size: 1.5em;
-            margin-top: 20px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #ff5555;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ff79c6;
+            color: black;
         }
     </style>
 </head>
 <body>
-    <h1>Tic-Tac-Toe</h1>
+    <header>
+        <h1>Tic-Tac-Toe</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <div class="board" id="board"></div>
-    <div class="winner" id="winner"></div>
+    <p id="winner"></p>
     <button onclick="resetGame()">Restart</button>
 
     <script>
         const board = document.getElementById("board");
-        const winnerText = document.getElementById("winner");
         let currentPlayer = "X";
-        let boardState = ["", "", "", "", "", "", "", "", ""];
+        let boardState = Array(9).fill("");
 
         function createBoard() {
             board.innerHTML = "";
-            boardState.forEach((value, index) => {
+            boardState.forEach((_, index) => {
                 const cell = document.createElement("div");
                 cell.classList.add("cell");
                 cell.dataset.index = index;
-                cell.innerText = value;
                 cell.addEventListener("click", handleClick);
                 board.appendChild(cell);
             });
@@ -81,33 +59,15 @@
 
         function handleClick(event) {
             const index = event.target.dataset.index;
-            if (boardState[index] === "" && !checkWinner()) {
+            if (!boardState[index]) {
                 boardState[index] = currentPlayer;
                 event.target.innerText = currentPlayer;
-                if (checkWinner()) {
-                    winnerText.innerText = `${currentPlayer} Wins!`;
-                } else {
-                    currentPlayer = currentPlayer === "X" ? "O" : "X";
-                }
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
             }
         }
 
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                [0, 4, 8], [2, 4, 6]
-            ];
-            return winPatterns.some(pattern => {
-                const [a, b, c] = pattern;
-                return boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c];
-            });
-        }
-
         function resetGame() {
-            boardState = ["", "", "", "", "", "", "", "", ""];
-            currentPlayer = "X";
-            winnerText.innerText = "";
+            boardState.fill("");
             createBoard();
         }
 
