@@ -6,6 +6,9 @@
     <title>Riyan's Game Zone</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js"></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -69,6 +72,35 @@
             transform: scale(1.05);
             background: rgba(255, 255, 255, 0.2);
         }
+        .leaderboard-container {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+        }
+        .leaderboard-container h2 {
+            color: #ffea00;
+        }
+        .leaderboard-container input {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .leaderboard-container button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .leaderboard-container button:hover {
+            background-color: #218838;
+        }
+        .leaderboard-list {
+            margin-top: 15px;
+        }
         footer {
             margin-top: 30px;
             padding: 10px;
@@ -81,14 +113,17 @@
         <h1>Welcome to Riyan's Game Zone</h1>
         <div id="real-time-clock" class="clock"></div>
     </header>
+
     <nav>
         <a href="index.html">Home</a>
         <a href="tic-tac-toe.html">Tic-Tac-Toe</a>
         <a href="jet-fighter.html">Jet Fighter</a>
         <a href="leaderboard.html">Leaderboard</a>
     </nav>
+
     <main>
         <p>Enjoy exciting games with an anime-themed experience!</p>
+
         <div class="game-section">
             <div class="game-card">
                 <h2>Tic-Tac-Toe</h2>
@@ -99,11 +134,24 @@
                 <a href="jet-fighter.html">Play Now</a>
             </div>
         </div>
+
+        <!-- 🔥 Leaderboard Section -->
+        <div class="leaderboard-container">
+            <h2>🏆 Leaderboard 🏆</h2>
+            <input type="text" id="username" placeholder="Enter your name">
+            <input type="number" id="score" placeholder="Enter your score">
+            <button onclick="submitScore()">Submit Score</button>
+            <div id="leaderboard" class="leaderboard-list"></div>
+        </div>
+
     </main>
+
     <footer>
         &copy; 2025 Riyan's Game Zone | All rights reserved.
     </footer>
+
 </body>
 </html>
+
 
 
