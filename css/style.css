@@ -28,6 +28,8 @@ nav ul {
     padding: 0;
     background: rgba(255, 255, 255, 0.2);
     margin: 0;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
@@ -41,8 +43,30 @@ nav ul li a {
     font-size: 1.2em;
 }
 
-main {
-    margin: 30px;
+/* Game Container */
+.game-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+.game-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px;
+    width: 200px;
+}
+
+.play-button {
+    display: block;
+    padding: 10px;
+    background: #ffcc00;
+    color: black;
+    text-decoration: none;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 
 /* Name Prompt */
@@ -84,11 +108,10 @@ footer {
     header {
         font-size: 1em;
     }
-    nav ul li {
-        display: block;
-        padding: 10px;
+    nav ul {
+        flex-direction: column;
     }
-    #namePrompt {
-        width: 90%;
+    .game-container {
+        flex-direction: column;
     }
 }
