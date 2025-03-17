@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Riyan's Game Zone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Leaderboard</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tic-tac-toe.html">Tic-Tac-Toe</a></li>
+                <li><a href="jet-fighter.html">Jet Fighter</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section>
+        <h2>Top Players</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardTable">
+                <!-- Scores will be added here dynamically -->
+            </tbody>
+        </table>
+    </section>
+    
+    <footer>
+        <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
+    </footer>
+    
+    <script>
+        let playerName = localStorage.getItem("playerName") || "Guest";
+        let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+        
+        function updateLeaderboard() {
+            const table = document.getElementById("leaderboardTable");
+            table.innerHTML = ""; // Clear previous data
+            leaderboard.sort((a, b) => b.score - a.score); // Sort by highest score
+            leaderboard.forEach((player, index) => {
+                let row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${player.name}</td>
+                    <td>${player.score}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+        
+        function addScore(score) {
+            leaderboard.push({ name: playerName, score: score });
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+            updateLeaderboard();
+        }
+        
+        updateLeaderboard();
+    </script>
+</body>
+</html>
