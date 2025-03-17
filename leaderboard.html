@@ -8,6 +8,9 @@
     <script defer>
         document.addEventListener("DOMContentLoaded", () => {
             const leaderboardBody = document.getElementById("leaderboard-body");
+            const nameInput = document.getElementById("player-name");
+            const scoreInput = document.getElementById("player-score");
+            const addButton = document.getElementById("add-score");
             let players = JSON.parse(localStorage.getItem("leaderboard")) || [];
             
             function updateLeaderboard() {
@@ -31,6 +34,16 @@
                 updateLeaderboard();
             }
             
+            addButton.addEventListener("click", () => {
+                const name = nameInput.value.trim();
+                const score = parseInt(scoreInput.value);
+                if (name && !isNaN(score)) {
+                    addPlayer(name, score);
+                    nameInput.value = "";
+                    scoreInput.value = "";
+                }
+            });
+            
             updateLeaderboard();
         });
     </script>
@@ -42,6 +55,12 @@
     </header>
     
     <main>
+        <label for="player-name">Enter Name:</label>
+        <input type="text" id="player-name" placeholder="Your Name">
+        <label for="player-score">Enter Score:</label>
+        <input type="number" id="player-score" placeholder="Your Score">
+        <button id="add-score">Add Score</button>
+
         <table>
             <thead>
                 <tr>
