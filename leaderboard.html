@@ -59,8 +59,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: url('background.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
             color: #fff;
             text-align: center;
             padding: 20px;
@@ -108,18 +107,22 @@
         header {
             margin-bottom: 20px;
         }
-        a.home-button {
-            display: inline-block;
-            padding: 10px 20px;
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        nav a {
             color: white;
-            background: #ff4081;
             text-decoration: none;
-            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 5px;
+            display: inline-block;
             transition: 0.3s;
         }
-        a.home-button:hover {
-            background: #e60073;
-            transform: scale(1.05);
+        nav a:hover {
+            background: #ff4081;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -127,7 +130,12 @@
     <header>
         <h1>Leaderboard</h1>
         <div id="real-time-clock" class="clock"></div>
-        <a href="index.html" class="home-button">Home</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="tic-tac-toe.html">Tic-Tac-Toe</a>
+            <a href="jet-fighter.html">Jet Fighter</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </nav>
     </header>
     
     <main>
