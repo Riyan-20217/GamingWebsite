@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="leaderboard.js"></script>
 </head>
 <body>
     <header>
@@ -23,17 +24,22 @@
 
     <main>
         <h2>Top Players</h2>
-        <ul id="leaderboard">
-            <li>Player 1 - 100 Points</li>
-            <li>Player 2 - 90 Points</li>
-            <li>Player 3 - 80 Points</li>
-        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Wins</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+                <!-- Players will be added here dynamically -->
+            </tbody>
+        </table>
     </main>
 
     <footer>
         <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
