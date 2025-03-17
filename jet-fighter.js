@@ -1,101 +1,105 @@
+// Jet Fighter Game (Mobile-Friendly)
+
+// Get the canvas and context
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-let player = {
+// Set responsive canvas size
+canvas.width = window.innerWidth > 600 ? 600 : window.innerWidth - 20;
+canvas.height = window.innerHeight > 500 ? 500 : window.innerHeight - 20;
+
+// Load player jet image
+const playerImage = new Image();
+playerImage.src = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/images/jet.png"; 
+
+// Load enemy jet image
+const enemyImage = new Image();
+enemyImage.src = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/images/enemy.png"; 
+
+// Player object
+const player = {
     x: canvas.width / 2 - 25,
-    y: canvas.height - 60,
+    y: canvas.height - 80,
     width: 50,
     height: 50,
-    speed: 5,
-    bullets: []
+    speed: 7
 };
 
+// Enemy array
 let enemies = [];
-let keys = {};
 
-// Load images
-const playerImg = new Image();
-playerImg.src = "images/jet.png";  // Ensure jet.png is in the images folder
-
-const enemyImg = new Image();
-enemyImg.src = "images/enemy.png";  // Ensure enemy.png is in the images folder
-
-// Move player
-window.addEventListener("keydown", (e) => keys[e.key] = true);
-window.addEventListener("keyup", (e) => keys[e.key] = false);
-
-function movePlayer() {
-    if (keys["ArrowLeft"] && player.x > 0) player.x -= player.speed;
-    if (keys["ArrowRight"] && player.x + player.width < canvas.width) player.x += player.speed;
-    if (keys[" "]) shootBullet();
+// Function to create enemy jets
+function createEnemy() {
+    let x = Math.random() * (canvas.width - 50);
+    let speed = Math.random() * 3 + 2;
+    enemies.push({ x: x, y: 0, width: 50, height: 50, speed: speed });
 }
 
-// Shoot bullet
-function shootBullet() {
-    player.bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 10, speed: 7 });
-}
+// Move player with keyboard
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" && player.x > 0) {
+        player.x -= player.speed;
+    } else if (event.key === "ArrowRight" && player.x < canvas.width - player.width) {
+        player.x += player.speed;
+    }
+});
 
-function updateBullets() {
-    player.bullets.forEach((bullet, index) => {
-        bullet.y -= bullet.speed;
-        if (bullet.y < 0) player.bullets.splice(index, 1);
-    });
-}
+// Mobile touch controls
+document.addEventListener("touchstart", (event) => {
+    let touchX = event.touches[0].clientX;
+    if (touchX < window.innerWidth / 2) {
+        // Move left
+        player.x -= player.speed * 2;
+    } else {
+        // Move right
+        player.x += player.speed * 2;
+    }
+});
 
-// Create enemies
-function spawnEnemies() {
-    setInterval(() => {
-        let enemyX = Math.random() * (canvas.width - 50);
-        enemies.push({ x: enemyX, y: 0, width: 50, height: 50, speed: 2 });
-    }, 1000);
-}
-
-function updateEnemies() {
+// Update game state
+function update() {
+    // Move enemies down
     enemies.forEach((enemy, index) => {
         enemy.y += enemy.speed;
-        if (enemy.y > canvas.height) enemies.splice(index, 1);
-    });
-}
 
-// Collision detection
-function checkCollisions() {
-    player.bullets.forEach((bullet, bIndex) => {
-        enemies.forEach((enemy, eIndex) => {
-            if (
-                bullet.x < enemy.x + enemy.width &&
-                bullet.x + bullet.width > enemy.x &&
-                bullet.y < enemy.y + enemy.height &&
-                bullet.y + bullet.height > enemy.y
-            ) {
-                player.bullets.splice(bIndex, 1);
-                enemies.splice(eIndex, 1);
-            }
-        });
+        // Check for collision with player
+        if (
+            enemy.y + enemy.height >= player.y &&
+            enemy.x < player.x + player.width &&
+            enemy.x + enemy.width > player.x
+        ) {
+            alert("Game Over! You were hit!");
+            enemies = [];
+        }
+
+        // Remove enemy if it goes out of screen
+        if (enemy.y > canvas.height) {
+            enemies.splice(index, 1);
+        }
     });
 }
 
 // Draw everything
 function draw() {
+    // Clear screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
-    player.bullets.forEach(bullet => {
-        ctx.fillStyle = "red";
-        ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-    });
-    enemies.forEach(enemy => {
-        ctx.drawImage(enemyImg, enemy.x, enemy.y, enemy.width, enemy.height);
+
+    // Draw player
+    ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+
+    // Draw enemies
+    enemies.forEach((enemy) => {
+        ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.width, enemy.height);
     });
 }
 
 // Game loop
 function gameLoop() {
-    movePlayer();
-    updateBullets();
-    updateEnemies();
-    checkCollisions();
+    update();
     draw();
     requestAnimationFrame(gameLoop);
 }
 
-spawnEnemies();
+// Start the game
+setInterval(createEnemy, 2000); // Spawn enemies every 2 seconds
 gameLoop();
