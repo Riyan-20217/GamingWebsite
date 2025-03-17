@@ -1,6 +1,6 @@
 /* Apply a beautiful animated gradient background */
 body {
-    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffdde1, #ff6b6b);
     background-size: 400% 400%;
     animation: gradientBG 10s ease infinite;
     font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@ nav ul {
 }
 
 nav ul li {
-    display: inline;
+    display: inline-block;
     padding: 15px 20px;
 }
 
@@ -37,18 +37,19 @@ nav ul li a {
     font-size: 18px;
 }
 
-/* Styling for Tic-Tac-Toe game */
+/* Tic-Tac-Toe game board */
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
     margin: 20px auto;
-    width: 320px;
+    width: 90%;
+    max-width: 320px;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    aspect-ratio: 1; /* Keeps cells square */
     background: rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
@@ -77,4 +78,30 @@ button {
 
 button:hover {
     background: #ff4f4f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav ul li {
+        display: block;
+        padding: 10px;
+    }
+
+    nav ul {
+        padding: 10px;
+    }
+
+    .board {
+        width: 90%;
+        max-width: 280px;
+    }
+
+    .cell {
+        font-size: 30px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
 }
