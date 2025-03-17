@@ -26,7 +26,13 @@ function checkWinner() {
         const [a, b, c] = combo;
         if (boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]) {
             gameActive = false;
-            alert(`${boardState[a]} Wins!`);
+            let winner = boardState[a];
+            alert(`${winner} Wins!`);
+            
+            // Get the player name from localStorage
+            let playerName = localStorage.getItem("playerName") || "Unknown Player";
+            addWin(playerName); // Update leaderboard
+
             return;
         }
     }
@@ -36,6 +42,7 @@ function checkWinner() {
         gameActive = false;
     }
 }
+
 
 function resetGame() {
     boardState = ["", "", "", "", "", "", "", "", ""];
