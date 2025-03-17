@@ -5,46 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="style.css">
-    <script defer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCeMH3b9megieTaqIG56JUhOin154Ox3o0", // Replace this
+            authDomain: "riyan-acbbb.firebaseapp.com",
+            databaseURL: "https://riyan-acbbb-default-rtdb.firebaseio.com",
+            projectId: "riyan-acbbb",
+            storageBucket: "riyan-acbbb.appspot.com",
+            messagingSenderId: "999991585230",
+            appId: "1:999991585230:web:e2b17678e83ecdda4ea39f"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const scoresRef = ref(db, "leaderboard");
+
+        // Function to Add Score
         document.addEventListener("DOMContentLoaded", () => {
             const leaderboardBody = document.getElementById("leaderboard-body");
             const nameInput = document.getElementById("player-name");
             const scoreInput = document.getElementById("player-score");
             const addButton = document.getElementById("add-score");
             const clockDisplay = document.getElementById("real-time-clock");
-            let players = JSON.parse(localStorage.getItem("leaderboard")) || [];
-            
+
+            // Function to Update Leaderboard
             function updateLeaderboard() {
-                leaderboardBody.innerHTML = "";
-                players.sort((a, b) => b.score - a.score);
-                players.forEach((player, index) => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `<td>${index + 1}</td><td>${player.name}</td><td>${player.score}</td>`;
-                    leaderboardBody.appendChild(row);
+                onValue(scoresRef, (snapshot) => {
+                    leaderboardBody.innerHTML = "";
+                    let scores = [];
+                    snapshot.forEach((childSnapshot) => {
+                        scores.push(childSnapshot.val());
+                    });
+
+                    scores.sort((a, b) => b.score - a.score); // Sort by highest score
+
+                    scores.forEach((player, index) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `<td>${index + 1}</td><td>${player.name}</td><td>${player.score}</td>`;
+                        leaderboardBody.appendChild(row);
+                    });
                 });
             }
 
-            function addPlayer(name, score) {
-                let existingPlayer = players.find(player => player.name === name);
-                if (existingPlayer) {
-                    existingPlayer.score = Math.max(existingPlayer.score, score);
-                } else {
-                    players.push({ name, score });
-                }
-                localStorage.setItem("leaderboard", JSON.stringify(players));
-                updateLeaderboard();
-            }
-            
+            // Function to Save Player Score in Firebase
             addButton.addEventListener("click", () => {
                 const name = nameInput.value.trim();
                 const score = parseInt(scoreInput.value);
+
                 if (name && !isNaN(score)) {
-                    addPlayer(name, score);
-                    nameInput.value = "";
-                    scoreInput.value = "";
+                    const newScoreRef = push(scoresRef);
+                    set(newScoreRef, { name: name, score: score }).then(() => {
+                        nameInput.value = "";
+                        scoreInput.value = "";
+                        updateLeaderboard();
+                    });
                 }
             });
-            
+
+            // Real-Time Clock
             function updateClock() {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString();
@@ -52,10 +77,12 @@
             }
             setInterval(updateClock, 1000);
             updateClock();
-            
+
+            // Load leaderboard
             updateLeaderboard();
         });
     </script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -160,3 +187,4 @@
     </main>
 </body>
 </html>
+
