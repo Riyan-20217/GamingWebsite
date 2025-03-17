@@ -3,32 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jet Fighter</title>
+    <title>Jet Fighter Game</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="jet-fighter.js"></script>
 </head>
 <body>
     <header>
-        <h1>Jet Fighter Game</h1>
-        <p id="clock">Loading time...</p>
+        <h1>Jet Fighter</h1>
+        <a href="index.html" class="home-button">Home</a>
     </header>
+    
+    <canvas id="gameCanvas"></canvas>
+    
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = window.innerHeight * 0.8;
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="tic-tac-toe.html">Tic-Tac-Toe</a></li>
-            <li><a href="jet-fighter.html">Jet Fighter</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
-        </ul>
-    </nav>
+        class Jet {
+            constructor() {
+                this.x = canvas.width / 2;
+                this.y = canvas.height - 50;
+                this.width = 40;
+                this.height = 40;
+                this.speed = 5;
+            }
+            draw() {
+                ctx.fillStyle = "blue";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            move(dir) {
+                if (dir === "left" && this.x > 0) this.x -= this.speed;
+                if (dir === "right" && this.x + this.width < canvas.width) this.x += this.speed;
+            }
+        }
 
-    <main>
-        <canvas id="gameCanvas"></canvas>
-    </main>
+        const jet = new Jet();
 
-    <footer>
-        <p>© 2025 Riyan's Game Zone | All rights reserved.</p>
-    </footer>
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            jet.draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") jet.move("left");
+            if (e.key === "ArrowRight") jet.move("right");
+        });
+
+        gameLoop();
+    </script>
 </body>
 </html>
 
