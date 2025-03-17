@@ -69,6 +69,61 @@ nav ul li a {
     border-radius: 5px;
 }
 
+/* Leaderboard Styling */
+.leaderboard-container {
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.leaderboard-container h2 {
+    color: #ffea00;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.leaderboard-container input {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    width: 80%;
+    border-radius: 5px;
+    border: none;
+}
+
+.leaderboard-container button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    width: 50%;
+}
+
+.leaderboard-container button:hover {
+    background-color: #218838;
+}
+
+.leaderboard-list {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.leaderboard-list p {
+    font-size: 1.2em;
+    margin: 5px 0;
+    color: #ffcc00;
+}
+
 /* Name Prompt */
 #namePrompt {
     position: fixed;
@@ -95,7 +150,7 @@ nav ul li a {
 
 /* Footer */
 footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
@@ -113,5 +168,8 @@ footer {
     }
     .game-container {
         flex-direction: column;
+    }
+    .leaderboard-container {
+        max-width: 90%;
     }
 }
