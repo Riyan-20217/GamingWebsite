@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jet Fighter Game</title>
+    <title>Jet Fighter</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            margin: 0;
-            background-color: black;
-            overflow: hidden;
-        }
         canvas {
             display: block;
-            background: url('https://i.imgur.com/CJvuIgU.png') repeat;
+            margin: auto;
+            background-color: black;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Jet Fighter</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <canvas id="gameCanvas"></canvas>
-    
+
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
@@ -28,32 +34,26 @@
 
         class Jet {
             constructor() {
-                this.x = canvas.width / 2 - 25;
-                this.y = canvas.height - 80;
+                this.x = canvas.width / 2;
+                this.y = canvas.height - 60;
                 this.width = 50;
                 this.height = 50;
-                this.speed = 10;
             }
             draw() {
                 ctx.fillStyle = "blue";
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             }
-            move(dir) {
-                if (dir === "left" && this.x > 0) this.x -= this.speed;
-                if (dir === "right" && this.x < canvas.width - this.width) this.x += this.speed;
-            }
         }
 
         class Bullet {
             constructor(x, y) {
-                this.x = x + 22;
+                this.x = x + 20;
                 this.y = y;
                 this.width = 5;
                 this.height = 15;
-                this.speed = 7;
             }
             move() {
-                this.y -= this.speed;
+                this.y -= 10;
             }
             draw() {
                 ctx.fillStyle = "red";
@@ -76,8 +76,8 @@
         }
 
         window.addEventListener("keydown", (event) => {
-            if (event.key === "ArrowLeft") jet.move("left");
-            if (event.key === "ArrowRight") jet.move("right");
+            if (event.key === "ArrowLeft") jet.x -= 20;
+            if (event.key === "ArrowRight") jet.x += 20;
             if (event.key === " ") bullets.push(new Bullet(jet.x, jet.y));
         });
 
@@ -85,3 +85,4 @@
     </script>
 </body>
 </html>
+
