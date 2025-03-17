@@ -1,15 +1,11 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
 body {
-    background: url('https://wallpapercave.com/wp/wp8442936.jpg') no-repeat center center/cover;
+    font-family: Arial, sans-serif;
+    background: url('anime-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: white;
     text-align: center;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 header {
@@ -17,14 +13,9 @@ header {
     padding: 15px;
 }
 
-header h1 {
-    color: #ff79c6;
-    font-size: 24px;
-}
-
 nav ul {
     list-style: none;
-    padding: 10px;
+    padding: 0;
 }
 
 nav ul li {
@@ -33,22 +24,21 @@ nav ul li {
 }
 
 nav ul li a {
+    color: white;
     text-decoration: none;
-    color: #50fa7b;
     font-size: 18px;
 }
 
-.welcome {
+section {
     margin-top: 50px;
-    font-size: 22px;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 
