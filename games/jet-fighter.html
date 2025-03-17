@@ -6,40 +6,82 @@
     <title>Jet Fighter Game</title>
     <style>
         body {
+            margin: 0;
             background-color: black;
-            color: white;
-            text-align: center;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         canvas {
-            background-color: grey;
             display: block;
-            margin: auto;
+            background: url('https://i.imgur.com/CJvuIgU.png') repeat;
         }
     </style>
 </head>
 <body>
-    <h1>Jet Fighter Game</h1>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <canvas id="gameCanvas"></canvas>
+    
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        let x = 50, y = 200, speed = 5;
-        
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "ArrowUp") y -= speed;
-            if (event.key === "ArrowDown") y += speed;
-        });
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "red";
-            ctx.fillRect(x, y, 50, 20);
-            requestAnimationFrame(draw);
+        class Jet {
+            constructor() {
+                this.x = canvas.width / 2 - 25;
+                this.y = canvas.height - 80;
+                this.width = 50;
+                this.height = 50;
+                this.speed = 10;
+            }
+            draw() {
+                ctx.fillStyle = "blue";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            move(dir) {
+                if (dir === "left" && this.x > 0) this.x -= this.speed;
+                if (dir === "right" && this.x < canvas.width - this.width) this.x += this.speed;
+            }
         }
 
-        draw();
+        class Bullet {
+            constructor(x, y) {
+                this.x = x + 22;
+                this.y = y;
+                this.width = 5;
+                this.height = 15;
+                this.speed = 7;
+            }
+            move() {
+                this.y -= this.speed;
+            }
+            draw() {
+                ctx.fillStyle = "red";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
+        const jet = new Jet();
+        const bullets = [];
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            jet.draw();
+            bullets.forEach((bullet, index) => {
+                bullet.move();
+                bullet.draw();
+                if (bullet.y < 0) bullets.splice(index, 1);
+            });
+            requestAnimationFrame(updateGame);
+        }
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowLeft") jet.move("left");
+            if (event.key === "ArrowRight") jet.move("right");
+            if (event.key === " ") bullets.push(new Bullet(jet.x, jet.y));
+        });
+
+        updateGame();
     </script>
 </body>
 </html>
