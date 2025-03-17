@@ -3,58 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jet Fighter Game</title>
+    <title>Jet Fighter</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="jet-fighter.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid #ff4081;
+        }
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 5px;
+            display: inline-block;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            background: #ff4081;
+            border-radius: 5px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: black;
+            border: 2px solid white;
+            border-radius: 10px;
+        }
+        .instructions {
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Jet Fighter</h1>
-        <a href="index.html" class="home-button">Home</a>
     </header>
-    
-    <canvas id="gameCanvas"></canvas>
-    
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth * 0.9;
-        canvas.height = window.innerHeight * 0.8;
-
-        class Jet {
-            constructor() {
-                this.x = canvas.width / 2;
-                this.y = canvas.height - 50;
-                this.width = 40;
-                this.height = 40;
-                this.speed = 5;
-            }
-            draw() {
-                ctx.fillStyle = "blue";
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-            }
-            move(dir) {
-                if (dir === "left" && this.x > 0) this.x -= this.speed;
-                if (dir === "right" && this.x + this.width < canvas.width) this.x += this.speed;
-            }
-        }
-
-        const jet = new Jet();
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            jet.draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        window.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") jet.move("left");
-            if (e.key === "ArrowRight") jet.move("right");
-        });
-
-        gameLoop();
-    </script>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="tic-tac-toe.html">Tic-Tac-Toe</a>
+        <a href="jet-fighter.html">Jet Fighter</a>
+        <a href="leaderboard.html">Leaderboard</a>
+    </nav>
+    <main>
+        <canvas id="gameCanvas" width="800" height="500"></canvas>
+        <p class="instructions">Use arrow keys to move and spacebar to shoot.</p>
+    </main>
 </body>
 </html>
-
-
