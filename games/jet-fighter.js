@@ -1,51 +1,52 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 600;
 
-let jet = { x: 400, y: 500, width: 50, height: 50 };
+canvas.width = 600;
+canvas.height = 400;
+
+let jet = { x: 50, y: 200, width: 40, height: 40, speed: 5 };
 let bullets = [];
 let enemies = [];
-let score = 0;
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft" && jet.x > 0) {
-        jet.x -= 20;
-    }
-    if (event.key === "ArrowRight" && jet.x < canvas.width - jet.width) {
-        jet.x += 20;
-    }
-    if (event.key === " ") {
-        bullets.push({ x: jet.x + 20, y: jet.y });
-    }
-});
-
-function updateGame() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = "red";
+function drawJet() {
+    ctx.fillStyle = "blue";
     ctx.fillRect(jet.x, jet.y, jet.width, jet.height);
-    
-    bullets.forEach((bullet, index) => {
-        bullet.y -= 5;
-        ctx.fillStyle = "yellow";
-        ctx.fillRect(bullet.x, bullet.y, 5, 10);
-        if (bullet.y < 0) bullets.splice(index, 1);
-    });
-
-    if (Math.random() < 0.02) {
-        enemies.push({ x: Math.random() * (canvas.width - 40), y: 0, width: 40, height: 40 });
-    }
-
-    enemies.forEach((enemy, index) => {
-        enemy.y += 3;
-        ctx.fillStyle = "green";
-        ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-        if (enemy.y > canvas.height) enemies.splice(index, 1);
-    });
-
-    requestAnimationFrame(updateGame);
 }
 
-updateGame();
+function drawBullets() {
+    ctx.fillStyle = "red";
+    bullets.forEach((bullet, index) => {
+        bullet.x += 5;
+        ctx.fillRect(bullet.x, bullet.y, 10, 5);
+        if (bullet.x > canvas.width) bullets.splice(index, 1);
+    });
+}
+
+function drawEnemies() {
+    ctx.fillStyle = "green";
+    enemies.forEach((enemy, index) => {
+        enemy.x -= 3;
+        ctx.fillRect(enemy.x, enemy.y, 40, 40);
+        if (enemy.x < 0) enemies.splice(index, 1);
+    });
+}
+
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawJet();
+    drawBullets();
+    drawEnemies();
+    requestAnimationFrame(gameLoop);
+}
+
+window.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp" && jet.y > 0) jet.y -= jet.speed;
+    if (e.key === "ArrowDown" && jet.y < canvas.height - jet.height) jet.y += jet.speed;
+    if (e.key === " ") bullets.push({ x: jet.x + jet.width, y: jet.y + 20 });
+});
+
+setInterval(() => enemies.push({ x: canvas.width, y: Math.random() * (canvas.height - 40) }), 2000);
+
+gameLoop();
+
 
