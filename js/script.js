@@ -1,32 +1,29 @@
-document.addEventListener("DOMContentLoaded", () => {
-    updateClock();
-    setInterval(updateClock, 1000); // Update clock every second
-    displayPlayerName();
-});
-
-// Save Player Name in Local Storage
-function saveName() {
-    let playerName = document.getElementById("playerNameInput").value.trim();
-    if (playerName === "") {
-        alert("Please enter a valid name!");
-        return;
-    }
-    localStorage.setItem("playerName", playerName);
-    document.getElementById("namePrompt").style.display = "none";
-    displayPlayerName();
-}
-
-// Display Player Name from Local Storage
-function displayPlayerName() {
-    let storedName = localStorage.getItem("playerName") || "Player";
-    document.getElementById("playerName").textContent = storedName;
-}
-
-// Real-time Clock Function
+// Real-Time Clock Function
 function updateClock() {
-    let now = new Date();
-    let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
-    let seconds = now.getSeconds().toString().padStart(2, '0');
-    document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
 }
+setInterval(updateClock, 1000);
+updateClock(); // Initialize clock immediately
+
+// Save Player Name and Show it on Page
+function saveName() {
+    const nameInput = document.getElementById('playerNameInput').value;
+    if (nameInput.trim() !== "") {
+        localStorage.setItem('playerName', nameInput);
+        document.getElementById('playerName').textContent = nameInput;
+        document.getElementById('namePrompt').style.display = 'none';
+    }
+}
+
+// Load Player Name from Storage
+window.onload = function() {
+    const storedName = localStorage.getItem('playerName');
+    if (storedName) {
+        document.getElementById('playerName').textContent = storedName;
+        document.getElementById('namePrompt').style.display = 'none';
+    }
+};
