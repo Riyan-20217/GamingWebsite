@@ -5,15 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="tic-tac-toe.js"></script>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCeMH3b9megieTaqIG56JUhOin154Ox3o0",  // Replace this
+            authDomain: "riyan-acbbb.firebaseapp.com",
+            databaseURL: "https://riyan-acbbb-default-rtdb.firebaseio.com",
+            projectId: "riyan-acbbb",
+            storageBucket: "riyan-acbbb.appspot.com",
+            messagingSenderId: "999991585230",
+            appId: "1:999991585230:web:e2b17678e83ecdda4ea39f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const scoresRef = ref(db, "leaderboard");
+
+        window.saveScore = function (playerName, score) {
+            const newScoreRef = push(scoresRef);
+            set(newScoreRef, { name: playerName, score: score });
+        };
+    </script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(to right, #1e3c72, #2a5298);
             color: white;
             text-align: center;
-            margin: 0;
-            padding: 0;
         }
         header {
             background: rgba(0, 0, 0, 0.8);
@@ -67,6 +90,21 @@
             font-size: 1.5em;
             font-weight: bold;
         }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e60073;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -94,7 +132,71 @@
         <p class="message" id="message"></p>
         <button onclick="restartGame()">Restart</button>
     </main>
+
+    <script>
+        const board = document.getElementById("board");
+        const message = document.getElementById("message");
+        let cells = document.querySelectorAll(".cell");
+
+        let currentPlayer = "X";
+        let gameActive = true;
+        let boardState = ["", "", "", "", "", "", "", "", ""];
+
+        cells.forEach(cell => {
+            cell.addEventListener("click", handleCellClick);
+        });
+
+        function handleCellClick(event) {
+            const index = event.target.getAttribute("data-index");
+
+            if (boardState[index] !== "" || !gameActive) return;
+
+            boardState[index] = currentPlayer;
+            event.target.textContent = currentPlayer;
+
+            if (checkWinner()) {
+                message.textContent = `${currentPlayer} wins!`;
+                gameActive = false;
+
+                let playerName = prompt("Enter your name for the leaderboard:");
+                if (playerName) {
+                    saveScore(playerName, 10); // Save to Firebase (10 points per win)
+                }
+                return;
+            }
+
+            if (!boardState.includes("")) {
+                message.textContent = "It's a draw!";
+                gameActive = false;
+                return;
+            }
+
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+        }
+
+        function checkWinner() {
+            const winningCombos = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                [0, 4, 8], [2, 4, 6] // Diagonals
+            ];
+
+            return winningCombos.some(combination => {
+                const [a, b, c] = combination;
+                return boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c];
+            });
+        }
+
+        function restartGame() {
+            boardState = ["", "", "", "", "", "", "", "", ""];
+            gameActive = true;
+            currentPlayer = "X";
+            message.textContent = "";
+            cells.forEach(cell => cell.textContent = "");
+        }
+    </script>
 </body>
 </html>
+
 
 
